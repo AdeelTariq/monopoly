@@ -11,6 +11,18 @@ GREEN = 8
 BLUE = 9
 
 #this class represents a deck of cards like surprize cards or punishment cards
+
+players=[]
+#dont forget to set this before each game
+def setPlayers(newPlayers):
+    global players
+    players=newPlayers
+
+
+###################
+# Cards Section
+###################
+
 class deck():
     def __init__(self,cards,name):
         self.name=name
@@ -41,11 +53,18 @@ class card():
         pass
 
 class changeMoneyCard(card):
-    def __init__(self,title,text,amount):
+    def __init__(self,title,text,amount,commune=False):
         card.__init__(self,title,text)
+        self.commune=commune
         self.amount=amount # amount of money to add or subtract from player(positive value will add and negetive will subtract)
 		#change from fork
     def applyToPlayer(self,player):
+        if self.commune:
+            for p in players:
+                if p.name!=player.name:
+                    player.money+=self.ammount
+                    p.money-=self.ammount
+        else:            
         player.money+=self.amount
         
 class advanceToCard(card):
@@ -60,7 +79,9 @@ class moveToNearestCard(card):
         player.location=target
     
 
-
+###################
+# Blocks Section
+###################
 
 
 #represents a block on the board that containing an asset
@@ -84,6 +105,8 @@ class utilBlock(block):         #utilities and railway stations
         
     def get_actions(self):
         pass
+    def pass_():
+        pass    
         
     def can_be_owned(self):
         return True
@@ -112,10 +135,15 @@ class assetBlock(block):
     def purchase(self):
         self.player.buy(self.asset)
     def get_actions(self):
-        if asset.owner==None or asset.owner==self.player.playerName:
-            return {}
-        else:            
-            return {"Buy":self.purchase}
+        rent=self.asset.value//30
+        self.player.pay(rent)
+    def getActions(self):
+        if asset.owner==None :
+            return {"Buy":self.purchase,"pass",self.pass_}            
+        elif asset.owner==self.player.playerName:                        
+            return {"pass",self.pass_}
+        else:
+            return {"Pay Rent",self.pay_rent()}
         
     def can_be_owned(self):
         return True
@@ -219,13 +247,18 @@ class goToJailBlock(block):
 #represents an asset
 #asset have a name a group name and a value       
 class asset():
-    def __init__(self,name,groupName,value):
+    def __init__(self,name,groupName,value,utilty=False,railRoad=False):
         self.name=name
         self.groupName=groupName
         self.value=value
         self.owner=None
+        self.utility=utility
+        self.railRoad=railRoad
 
 
+##################
+# Player Section
+##################
 
 
 #represent a player
@@ -236,6 +269,8 @@ class player():
         self.money=money
         self.assets={}
         self.location=0
+    def pay(self,ammount):
+        self.money-=ammount
     def buy(self,asset):
         self.money-=asset.value
         asset.owner=self.name
@@ -246,6 +281,14 @@ class player():
     def landOn(self,block,location):        
         self.location=location
         block.player=player
-        #block.
+    def getHousesAndHotels(self):
+        houses=0
+        hotels=0
+        for group in assets.values():
+            for asset in group:
+                houses+=asset.houses
+                if asset.hotel=True:
+                    hotels+=1
+        return (houses,hotels)
     def is_bankrupt(self):
         pass

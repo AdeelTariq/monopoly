@@ -20,6 +20,11 @@ block_arr = [moneyBlock("GO!", 200),
              moneyBlock("JAIL, JUST VISITING", 0),      #if money is zero, its land action will be ignored
              assetBlock("ST. CHARLES PLACE", PURPLE,-140),
              utilBlock("ELECTERIC COMPANY", UTILITY, -150),
+             assetBlock("STATES AVENUE", PURPLE,-140),
+             assetBlock("VIRGINIA AVENUE", PURPLE,-160),
+             utilBlock("PENNSYLVANIA RAILROAD", RW_STATION, -200),
+             assetBlock("ST. JAMES PLACE", ORANGE,-180),
+             cardBlock("COMMUNITY CHEST", chest_deck),
              #work undergoing ....!!
              
              ]
