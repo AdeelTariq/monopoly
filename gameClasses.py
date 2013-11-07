@@ -65,7 +65,7 @@ class changeMoneyCard(card):
                     player.money+=self.ammount
                     p.money-=self.ammount
         else:            
-        player.money+=self.amount
+            self.player.money+=self.amount
         
 class advanceToCard(card):
     def __init__(self,title,text,target):
@@ -139,7 +139,7 @@ class assetBlock(block):
         self.player.pay(rent)
     def getActions(self):
         if asset.owner==None :
-            return {"Buy":self.purchase,"pass",self.pass_}            
+            return {"Buy",self.purchase,"pass",self.pass_}            
         elif asset.owner==self.player.playerName:                        
             return {"pass",self.pass_}
         else:
@@ -281,6 +281,7 @@ class player():
     def landOn(self,block,location):        
         self.location=location
         block.player=player
+        
     def getHousesAndHotels(self):
         houses=0
         hotels=0
